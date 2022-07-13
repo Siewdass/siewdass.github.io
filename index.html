@@ -1,0 +1,204 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset='utf-8'>
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0">
+		<title>ATTRIBUTES</title>
+		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+		<style>
+		body {
+			overflow-x: hidden;
+		}
+		.chart {
+			border: 1px solid rgba(0,0,0,.125);
+			border-radius: 4px;
+			margin-bottom: 15px;
+			display: flex;
+  		justify-content: center;
+			margin-top: 15px;
+			margin-left: -15px;
+		}
+		canvas {
+			margin: 0 auto;
+			padding: 15px;
+
+    }
+		.btn-group {
+			margin: -13px;
+		}
+		.list-group {
+			margin-top: 15px;
+			margin-bottom: 15px;
+		}
+    @media ( orientation: portrait ) {
+	 		.chart {
+				margin: 0px;
+				margin-bottom: 15px;
+			}
+			canvas {
+				width: 70vh !important;
+				height: 40vh !important;
+		  }
+		}
+		</style>
+	</head>
+	<body>
+	 <div class="container-fluid">
+      <div class="row">
+        <div class="col-sm-4 col-12">
+          <ul class="list-group">
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+              Stamina [ HP ]
+		          <div class="btn-group" role="group">
+								<button type="button" class="btn btn-secondary" onclick="increment('Stamina')">+</button>
+								<button type="button" class="btn btn-secondary" onclick="decrement('Stamina')">-</button>
+							</div>
+            </li>
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+              Intellect [ RESOURCE ]
+							<div class="btn-group" role="group">
+								<button type="button" class="btn btn-secondary" onclick="increment('Intellect')">+</button>
+								<button type="button" class="btn btn-secondary" onclick="decrement('Intellect')">-</button>
+							</div>
+            </li>
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+              Strength [ MELEE ]
+							<div class="btn-group" role="group">
+								<button type="button" class="btn btn-secondary" onclick="increment('Strength')">+</button>
+								<button type="button" class="btn btn-secondary" onclick="decrement('Strength')">-</button>
+							</div>
+            </li>
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+            	Restoration [ HEAL ]
+							<div class="btn-group" role="group">
+								<button type="button" class="btn btn-secondary" onclick="increment('Restoration')">+</button>
+								<button type="button" class="btn btn-secondary" onclick="decrement('Restoration')">-</button>
+							</div>
+            </li>
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+            	Power [ SPELLCASTER ]
+							<div class="btn-group" role="group">
+								<button type="button" class="btn btn-secondary" onclick="increment('Power')">+</button>
+								<button type="button" class="btn btn-secondary" onclick="decrement('Power')">-</button>
+							</div>
+            </li>
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+            	Agility [ RANGED ]
+							<div class="btn-group" role="group">
+								<button type="button" class="btn btn-secondary" onclick="increment('Agility')">+</button>
+								<button type="button" class="btn btn-secondary" onclick="decrement('Agility')">-</button>
+							</div>
+            </li>
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+            	Defense [ PHYSICAL ]
+							<div class="btn-group" role="group">
+								<button type="button" class="btn btn-secondary" onclick="increment('Defense')">+</button>
+								<button type="button" class="btn btn-secondary" onclick="decrement('Defense')">-</button>
+							</div>
+            </li>
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+            	Resistance [ MAGICAL ]
+							<div class="btn-group" role="group">
+								<button type="button" class="btn btn-secondary" onclick="increment('Resistance')">+</button>
+								<button type="button" class="btn btn-secondary" onclick="decrement('Resistance')">-</button>
+							</div>
+            </li>
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+            	Hit Chance [ MISS ]
+							<div class="btn-group" role="group">
+								<button type="button" class="btn btn-secondary" onclick="increment('Hit Chance')">+</button>
+								<button type="button" class="btn btn-secondary" onclick="decrement('Hit Chance')">-</button>
+							</div>
+            </li>
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+            	Spirit [ REGENERATION ]
+							<div class="btn-group" role="group">
+								<button type="button" class="btn btn-secondary" onclick="increment('Spirit')">+</button>
+								<button type="button" class="btn btn-secondary" onclick="decrement('Spirit')">-</button>
+							</div>
+            </li>
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+            	Attack Speed [ AUTOATTACK ]
+							<div class="btn-group" role="group">
+								<button type="button" class="btn btn-secondary" onclick="increment('Attack Speed')">+</button>
+								<button type="button" class="btn btn-secondary" onclick="decrement('Attack Speed')">-</button>
+							</div>
+            </li>
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+            	Movement Speed [ MOVE ]
+							<div class="btn-group" role="group">
+								<button type="button" class="btn btn-secondary" onclick="increment('Movement Speed')">+</button>
+								<button type="button" class="btn btn-secondary" onclick="decrement('Movement Speed')">-</button>
+							</div>
+            </li>
+          </ul>
+        </div>
+        <div class="col-sm-8 col-12">
+        	<div class="chart">
+						<canvas id="radar-chart">
+						</canvas>
+					</div>
+				</div>
+      </div>
+    </div>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.bundle.js"></script>
+		<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+		<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>		<script>
+		var ctx = document.getElementById('radar-chart')
+		var mychart = new Chart( ctx, {
+		type: 'radar',
+		data: {
+			labels: ['Stamina','Intellect','Strength','Restoration','Power','Agility','Defense','Resistance','Hit Chance','Spirit','Attack Speed','Movement Speed'],
+			datasets: [ {
+				label: 'ATTRIBUTES',
+				data: [10,10,10,10,10,10,10,10,10,10,10,10],
+				backgroundColor: "rgba(219,39,91,0.5)",
+				borderColor: "rgba(219,39,91,1)",
+				borderWidth: 2
+				} ]
+			},
+			options: {
+			legend: {
+				display: false
+			},
+			title: {
+				display: false
+			},
+			scale: {
+				ticks: {
+					display: false,
+					suggestedMin: 0,
+					suggestedMax: 50,
+					stepSize: 10,
+					callback: (value, index, values) => {
+					  return  value +  ''
+					  }
+					}
+				}
+			}
+		} )
+		function increment( label ) {
+		  for ( let i in mychart.data.labels ) {
+				if ( mychart.data.labels[ i ] == label ) {
+					if ( mychart.data.datasets[ 0 ].data[ i ] < 50 ) {
+						mychart.data.datasets[ 0 ].data[ i ] += 1
+						mychart.update( )
+					}
+				}
+		  }
+		}
+		function decrement( label ) {
+			//sadsads
+		  for ( let i in mychart.data.labels ) {
+				if ( mychart.data.labels[ i ] == label ) {
+					if ( mychart.data.datasets[ 0 ].data[ i ] > 0 ) {
+						mychart.data.datasets[ 0 ].data[ i ] -= 1
+						mychart.update( )
+					}
+				}
+		  }
+		}
+		</script>
+	</body>
+</html>
