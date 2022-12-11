@@ -6,8 +6,10 @@
 	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.15.0/Sortable.min.js"></script>
 	<style>
-		.nested-sortable, .nested-1, .nested-2, .nested-3 {
+		.sortable, .nested-1, .nested-2, .nested-3 {
 			margin-top: 5px;
+			padding-left: 3px;
+    	padding-right: 3px;
 		}
 		.nested-1 {
 			background-color: #e6e6e6;
@@ -18,60 +20,75 @@
 		.nested-3 {
 			background-color: #b3b3b3;
 		}
+
 	</style>
 <body>
-<div class="navbar-menu d-flex flex-column bg-light">
-	<ul class="nav nav-pills flex-column d-flex align-items-center justify-content-center">
-		<li class="nav-item">
-			<a class="nav-link py-3">
-				<i class="fas fa-project-diagram"></i>
+<nav id="primary" class="navbar navbar-expand-lg navbar-light bg-light">
+	<div class="container">
+		<div class="navbar-header text-center">
+			<a href="#" class="nav-link d-flex flex-column">
+				<span class="fas fa-project-diagram fa-lg"></span>
+				<span class="d-none d-sm-inline mt-1">Projects</span>
 			</a>
-		</li>
-		<li class="nav-item">
-			<a class="nav-link py-3">
-				<i class="fas fa-tablet-alt"></i>
-			</a>
-		</li>
-		<li class="nav-item">
-			<a class="nav-link py-3">
-				<i class="fas fa-hdd"></i>
-			</a>
-		</li>
-		<li class="nav-item">
-			<a class="nav-link py-3">
-				<i class="fas fa-database"></i>
-			</a>
-		</li>
-		<li class="nav-item">
-			<a class="nav-link py-3">
-				<i class="fas fa-th-large"></i>
-			</a>
-		</li>
-		<li class="nav-item">
-			<a class="nav-link py-3 active">
-				<i class="fas fa-comment"></i>
-			</a>
-		</li>
-		<li class="nav-item">
-			<a class="nav-link py-3">
-				<i class="fas fa-user-friends"></i>
-			</a>
-		</li>
-		<li class="nav-item">
-			<a class="nav-link py-3">
-				<i class="fas fa-cloud-download-alt"></i>
-			</a>
-		</li>
-	</ul>
-	<ul class="bottom nav nav-pills justify-content-center">
-		<li class="nav-item">
-			<a class="nav-link py-3">
-				<i class="fas fa-bars"></i>
-			</a>
-		</li>
-	</ul>
-</div>
-<div class="rest">
+		</div>
+		<div class="mx-auto order-0">
+			<a class="navbar-brand mx-auto">NoCode</a>
+		</div>
+		<ul class="navbar-nav ml-auto text-center">
+			<li class="nav-item">
+				<a href="#" class="nav-link d-flex flex-column">
+					<span class="fas fa-user-cog fa-lg"></span>
+					<span class="d-none d-sm-inline mt-1">Settings</span>
+				</a>
+			</li>
+		</ul>
+	</div>
+</nav>
+
+<nav class="navbar fixed-bottom navbar-dark navbar-expand bg-primary justify-content-center">
+	<div class="container">
+			<ul class="navbar-nav nav-justified w-100 text-center mt-1">
+					<li class="nav-item">
+							<a href="#" class="nav-link d-flex flex-column">
+								<span class="fas fa-tablet-alt fa-lg"></span>
+								<span class="d-none d-sm-inline mt-1">Device</span>
+							</a>
+					</li>
+					<li class="nav-item">
+							<a href="#" class="nav-link d-flex flex-column">
+								<span class="fas fas fa-hdd fa-lg"></span>
+								<span class="d-none d-sm-inline mt-1">Assets</span>
+							</a>
+					</li>
+					<li class="nav-item">
+							<a href="#" class="nav-link d-flex flex-column">
+								<span class="fas fa-database fa-lg"></span>
+								<span class="d-none d-sm-inline mt-1">Database</span>
+							</a>
+					</li>
+					<li class="nav-item">
+							<a href="#" class="nav-link d-flex flex-column">
+								<span class="fas fa-th-large fa-lg"></span>
+								<span class="d-none d-sm-inline mt-1">Components</span>
+							</a>
+					</li>
+					<li class="nav-item">
+							<a href="#" class="nav-link d-flex flex-column">
+								<span class="fas fa-comment fa-lg"></span>
+								<span class="d-none d-sm-inline mt-1">Team</span>
+							</a>
+					</li>
+					<li class="nav-item dropdown">
+							<a href="#" class="nav-link d-flex flex-column">
+								<span class="fas fa-cloud-download-alt fa-lg"></span>
+								<span class="d-none d-sm-inline mt-1">Export</span>
+							</a>
+					</li>
+			</ul>
+	</div>
+</nav>
+
+<section class="editor">
 	<div class="container">
 		<div class="row">
 			<div class="list-group sortable">
@@ -108,14 +125,20 @@
 			</div>
 		</div>
 	</div>
-</div>
+</section>
 <style>
+body {
+	background-color: #53545f;
+}
+a, i {
+	color: white !important;
+}
+
 .navbar-menu {
 	position: fixed;
 	width: 63px;
 	height: 100%;
 	background: #36383f !important;
-	padding-top: 10px;
 	overflow-y: auto;
 	margin-left: -3px;
 }
@@ -133,15 +156,20 @@
 .bottom {
 	margin-top: auto;
 }
-.rest {
-	position: fixed;
-	top: 0;
-	left: 60px;
-	width: calc(100% - 60px);
-	height: 100vh;
-	background-color: #53545f;
-	padding-top: 7px;
-	padding-left: 13px;
+.navbar {
+	background: #36383f !important;
+}
+.editor {
+	padding-left: 7px;
+	padding-right: 7px;
+}
+
+#primary .container {
+	padding-left: 30px;
+  padding-right: 30px;
+}
+#primary .navbar-brand {
+	font-weight: bold;
 }
 </style>
 <script>
