@@ -28,8 +28,40 @@
 	<nav class="navbar">
 		<div class="container">
 			<a class="navbar-brand">NoCode</a>
-			<div class="nav mx-auto order-0">
-			</div>
+
+				<ul class="nav mx-auto order-0">
+					<li class="nav-item">
+						<a href="#" class="nav-link d-flex flex-column">
+							<i class="fas fa-tablet-alt fa-lg"></i>
+						</a>
+					</li>
+					<li class="nav-item">
+						<a href="#" class="nav-link d-flex flex-column">
+							<i class="fas fas fa-hdd fa-lg"></i>
+						</a>
+					</li>
+					<li class="nav-item">
+						<a href="#" class="nav-link d-flex flex-column">
+							<i class="fas fa-database fa-lg"></i>
+						</a>
+					</li>
+					<li class="nav-item">
+						<a href="#" class="nav-link">
+							<i class="fas fa-th-large fa-lg"></i>
+						</a>
+					</li>
+					<li class="nav-item">
+							<a href="#" class="nav-link d-flex flex-column">
+								<i class="fas fa-comment fa-lg"></i>
+							</a>
+					</li>
+					<li class="nav-item dropdown">
+						<a href="#" class="nav-link d-flex flex-column">
+							<i class="fas fa-cloud-download-alt fa-lg"></i>
+						</a>
+					</li>
+			</ul>
+
 			<div class="nav navbar-right">
 				<li class="nav-item">
 					<a class="nav-link">
@@ -44,48 +76,44 @@
 	</nav>
 </div>
 
-<nav class="navbar fixed-bottom navbar-dark navbar-expand bg-primary justify-content-center">
-	<div class="container">
-			<ul class="navbar-nav nav-justified w-100 text-center mt-1">
-					<li class="nav-item">
+<div id="actionbar">
+	<nav class="navbar fixed-bottom navbar-dark navbar-expand bg-primary justify-content-center">
+		<div class="container">
+				<ul class="navbar-nav nav-justified w-100 text-center mt-1">
+						<li class="nav-item">
 							<a href="#" class="nav-link d-flex flex-column">
-								<span class="fas fa-tablet-alt fa-lg"></span>
-								<span class="d-none d-sm-inline mt-1">Device</span>
+								<i class="fas fa-tablet-alt fa-lg"></i>
 							</a>
-					</li>
-					<li class="nav-item">
+						</li>
+						<li class="nav-item">
 							<a href="#" class="nav-link d-flex flex-column">
-								<span class="fas fas fa-hdd fa-lg"></span>
-								<span class="d-none d-sm-inline mt-1">Assets</span>
+								<i class="fas fas fa-hdd fa-lg"></i>
 							</a>
-					</li>
-					<li class="nav-item">
+						</li>
+						<li class="nav-item">
 							<a href="#" class="nav-link d-flex flex-column">
-								<span class="fas fa-database fa-lg"></span>
-								<span class="d-none d-sm-inline mt-1">Database</span>
+								<i class="fas fa-database fa-lg"></i>
 							</a>
-					</li>
-					<li class="nav-item">
+						</li>
+						<li class="nav-item">
+							<a href="#" class="nav-link">
+								<i class="fas fa-th-large fa-lg"></i>
+							</a>
+						</li>
+						<li class="nav-item">
+								<a href="#" class="nav-link d-flex flex-column">
+									<i class="fas fa-comment fa-lg"></i>
+								</a>
+						</li>
+						<li class="nav-item dropdown">
 							<a href="#" class="nav-link d-flex flex-column">
-								<span class="fas fa-th-large fa-lg"></span>
-								<span class="d-none d-sm-inline mt-1">Components</span>
+								<i class="fas fa-cloud-download-alt fa-lg"></i>
 							</a>
-					</li>
-					<li class="nav-item">
-							<a href="#" class="nav-link d-flex flex-column">
-								<span class="fas fa-comment fa-lg"></span>
-								<span class="d-none d-sm-inline mt-1">Team</span>
-							</a>
-					</li>
-					<li class="nav-item dropdown">
-							<a href="#" class="nav-link d-flex flex-column">
-								<span class="fas fa-cloud-download-alt fa-lg"></span>
-								<span class="d-none d-sm-inline mt-1">Export</span>
-							</a>
-					</li>
-			</ul>
-	</div>
-</nav>
+						</li>
+				</ul>
+		</div>
+	</nav>
+</div>
 
 <div class="editor">
 	<div class="container">
@@ -132,20 +160,41 @@ body {
 a, i {
 	color: white !important;
 }
-
-
 .navbar {
 	background: #36383f !important;
 }
 
-.editor {
-	padding-left: 7px;
-	padding-right: 7px;
-}
-
 #primary .navbar-brand {
 	font-weight: bold;
-	padding-left: 15px;
+}
+#primary .mx-auto {
+	align-items: center;
+}
+#primary .navbar-right {
+	margin-right: -15px;
+}
+#actionbar {
+	display: none;
+}
+@media only screen and ( max-device-width: 768px ) {
+	#primary .navbar-brand {
+		padding-left: 15px;
+	}
+	#primary .navbar-right {
+		margin-right: 0px;
+	}
+	#primary .mx-auto {
+		display: none;
+	}
+	#actionbar {
+		display: block;
+	}
+	.editor {
+		padding-left: 7px;
+		padding-right: 7px;
+	}
+	.editor .navbar-nav{
+	}
 }
 </style>
 <script>
