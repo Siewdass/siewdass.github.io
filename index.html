@@ -23,27 +23,26 @@
 
 	</style>
 <body>
-<nav id="primary" class="navbar navbar-expand-lg navbar-light bg-light">
-	<div class="container">
-		<div class="navbar-header text-center">
-			<a href="#" class="nav-link d-flex flex-column">
-				<span class="fas fa-project-diagram fa-lg"></span>
-				<span class="d-none d-sm-inline mt-1">Projects</span>
-			</a>
-		</div>
-		<div class="mx-auto order-0">
-			<a class="navbar-brand mx-auto">NoCode</a>
-		</div>
-		<ul class="navbar-nav ml-auto text-center">
-			<li class="nav-item">
-				<a href="#" class="nav-link d-flex flex-column">
-					<span class="fas fa-user-cog fa-lg"></span>
-					<span class="d-none d-sm-inline mt-1">Settings</span>
+
+<div id="primary">
+	<nav class="navbar bg-light border-bottom">
+		<div class="container">
+			<a class="navbar-brand">NoCode</a>
+			<div class="nav mx-auto order-0">
+			</div>
+			<div class="nav navbar-right">
+				<li class="nav-item">
+					<a class="nav-link">
+						<i class="fas fa-project-diagram fa-lg"></i>
+					</a>
+				</li>
+				<a class="nav-link">
+					<i class="fas fa-user-cog fa-lg"></i>
 				</a>
-			</li>
-		</ul>
-	</div>
-</nav>
+			</div>
+		</div>
+	</nav>
+</div>
 
 <nav class="navbar fixed-bottom navbar-dark navbar-expand bg-primary justify-content-center">
 	<div class="container">
@@ -88,7 +87,7 @@
 	</div>
 </nav>
 
-<section class="editor">
+<div class="editor">
 	<div class="container">
 		<div class="row">
 			<div class="list-group sortable">
@@ -125,7 +124,7 @@
 			</div>
 		</div>
 	</div>
-</section>
+</div>
 <style>
 body {
 	background-color: #53545f;
@@ -134,42 +133,19 @@ a, i {
 	color: white !important;
 }
 
-.navbar-menu {
-	position: fixed;
-	width: 63px;
-	height: 100%;
-	background: #36383f !important;
-	overflow-y: auto;
-	margin-left: -3px;
-}
-.navbar-menu i {
-	color: white !important;
-}
-.navbar-menu .nav-item .nav-link {
-	text-align: center;
-	width: 51px;
-	margin-left: 3px;
-}
-.navbar-menu .active {
-	background: #777888 !important;
-}
-.bottom {
-	margin-top: auto;
-}
+
 .navbar {
 	background: #36383f !important;
 }
+
 .editor {
 	padding-left: 7px;
 	padding-right: 7px;
 }
 
-#primary .container {
-	padding-left: 30px;
-  padding-right: 30px;
-}
 #primary .navbar-brand {
 	font-weight: bold;
+	padding-left: 15px;
 }
 </style>
 <script>
@@ -185,4 +161,3 @@ a, i {
 </script>
 </body>
 </html>
-
