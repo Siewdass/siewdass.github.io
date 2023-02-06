@@ -1,217 +1,57 @@
 <!DOCTYPE html>
 <html>
-	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
-	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
-	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
-	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.15.0/Sortable.min.js"></script>
-	<style>
-		.sortable, .nested-1, .nested-2, .nested-3 {
-			margin-top: 5px;
-			padding-left: 3px;
-    	padding-right: 3px;
-		}
-		.nested-1 {
-			background-color: #e6e6e6;
-		}
-		.nested-2 {
-			background-color: #cccccc;
-		}
-		.nested-3 {
-			background-color: #b3b3b3;
-		}
-
-	</style>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Blockchain Demo</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+    <style>
+			body {
+				background: #6c757d;
+			}
+			.list-group-item {
+				color: white;
+				background: #343a40;
+			}
+			.navbar {
+				background: #343a40 !important;
+				margin-bottom: 20px;
+			}
+			.navbar-brand {
+				color: white;
+			}
+		</style>
+  </head>
 <body>
-
-<div id="primary">
-	<nav class="navbar">
+	<nav class="navbar navbar-expand-lg navbar-light bg-dark">
 		<div class="container">
-
-			<a class="navbar-brand">NoCode</a>
-
-			<ul class="nav mx-auto order-0">
-				<li class="nav-item">
-					<a href="#" class="nav-link">
-						<i class="fas fa-tablet-alt fa-lg"></i>
-					</a>
-				</li>
-				<li class="nav-item">
-					<a href="#" class="nav-link">
-						<i class="fas fas fa-hdd fa-lg"></i>
-					</a>
-				</li>
-				<li class="nav-item">
-					<a href="#" class="nav-link">
-						<i class="fas fa-database fa-lg"></i>
-					</a>
-				</li>
-				<li class="nav-item">
-					<a href="#" class="nav-link">
-						<i class="fas fa-th-large fa-lg"></i>
-					</a>
-				</li>
-				<li class="nav-item">
-					<a href="#" class="nav-link">
-						<i class="fas fa-comment fa-lg"></i>
-					</a>
-				</li>
-				<li class="nav-item dropdown">
-					<a href="#" class="nav-link">
-						<i class="fas fa-cloud-download-alt fa-lg"></i>
-					</a>
-				</li>
-			</ul>
-
-			<ul class="nav navbar-right">
-				<li class="nav-item">
-					<a class="nav-link">
-						<i class="fas fa-project-diagram fa-lg"></i>
-					</a>
-				</li>
-				<a class="nav-link">
-					<i class="fas fa-user-cog fa-lg"></i>
-				</a>
-			</ul>
-
+			<a class="navbar-brand mx-auto" href="#">Blockchain Demo</a>
 		</div>
 	</nav>
-</div>
 
-<div id="actionbar">
-	<nav class="navbar fixed-bottom navbar-dark navbar-expand bg-primary justify-content-center">
-		<div class="container">
-				<ul class="navbar-nav nav-justified w-100 text-center mt-1">
-						<li class="nav-item">
-							<a href="#" class="nav-link">
-								<i class="fas fa-tablet-alt fa-lg"></i>
-							</a>
-						</li>
-						<li class="nav-item">
-							<a href="#" class="nav-link">
-								<i class="fas fas fa-hdd fa-lg"></i>
-							</a>
-						</li>
-						<li class="nav-item">
-							<a href="#" class="nav-link">
-								<i class="fas fa-database fa-lg"></i>
-							</a>
-						</li>
-						<li class="nav-item">
-							<a href="#" class="nav-link">
-								<i class="fas fa-th-large fa-lg"></i>
-							</a>
-						</li>
-						<li class="nav-item">
-							<a href="#" class="nav-link">
-								<i class="fas fa-comment fa-lg"></i>
-							</a>
-						</li>
-						<li class="nav-item dropdown">
-							<a href="#" class="nav-link">
-								<i class="fas fa-cloud-download-alt fa-lg"></i>
-							</a>
-						</li>
-				</ul>
-		</div>
-	</nav>
-</div>
-
-<div class="editor">
 	<div class="container">
-		<div class="row">
-			<div class="list-group sortable">
-				<div class="list-group-item nested-1">Screen 1
-					<div class="list-group sortable">
-						<div class="list-group-item nested-2">Container
-							<div class="list-group sortable">
-								<div class="list-group-item nested-3">Row
-									<div class="list-group sortable">
-										<div class="list-group-item nested-1">Col
-											<div class="list-group sortable">
-												<div class="list-group-item nested-2">Item 1</div>
-												<div class="list-group-item nested-2">Item 2</div>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="list-group-item nested-1">Screen 2
-					<div class="list-group sortable">
-						<div class="list-group-item nested-2">Container
-							<div class="list-group sortable">
-								<div class="list-group-item nested-3">Item 1</div>
-								<div class="list-group-item nested-3">Item 2</div>
-								<div class="list-group-item nested-3">Item 3</div>
-								<div class="list-group-item nested-3">Item 4</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
+		<ul class="list-group">
+			<li id="buyers" class="list-group-item">Buyers: 0</li>
+			<li id="sellers" class="list-group-item">Sellers: 0</li>
+		</ul>
 	</div>
-</div>
-<style>
-body {
-	background-color: #53545f;
-}
-a, i {
-	color: white !important;
-}
-.navbar {
-	background: #36383f !important;
-	height: 51px;
-}
 
-#primary .navbar-brand {
-	font-weight: bold;
-	margin-top: -5px;
-}
-#primary .mx-auto {
-	align-items: center;
-}
-#primary .navbar-right {
-	margin-right: -15px;
-}
-#actionbar {
-	display: none;
-}
-@media only screen and ( max-device-width: 768px ) {
-	#primary .navbar-brand {
-		padding-left: 12px;
+	<script>
+	const b = document.getElementById( 'buyers' )
+	const s = document.getElementById( 'sellers' )
+
+	const btc = new WebSocket( 'wss://stream.binance.com:9443/ws/btcusdt@trade/btcbusd@trade' )
+	let buyers = 0, sellers = 0
+	btc.onmessage = function( message ) {
+		const { m } = JSON.parse( message.data ) 
+		if ( m ) {
+			buyers += 1
+			b.innerHTML = `Buyers: ${buyers}`
+		} else {
+			sellers += 1
+			s.innerHTML = `Sellers: ${sellers}`
+		} 
 	}
-	#primary .navbar-right {
-		margin-right: 0px;
-	}
-	#primary .mx-auto {
-		display: none;
-	}
-	#actionbar {
-		display: block;
-	}
-	.editor {
-		padding-left: 7px;
-		padding-right: 7px;
-	}
-	.editor .navbar-nav{
-	}
-}
-</style>
-<script>
-	const list = document.querySelectorAll( '.sortable' )
-	for ( let i = 0; i < list.length; i++ ) {
-		new Sortable( list[ i ], {
-			group: 'nested',
-			animation: 150,
-			fallbackOnBody: true,
-			swapThreshold: 0.65
-		} )
-	}
-</script>
+	</script>
 </body>
 </html>
-
