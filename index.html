@@ -20,9 +20,16 @@
 			.navbar-brand {
 				color: white;
 			}
+			#chart {
+				background: #343a40;
+				border-radius: 10px;
+				margin-top: 20px;
+			}
 		</style>
+		<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   </head>
 <body>
+
 	<nav class="navbar navbar-expand-lg navbar-light bg-dark">
 		<div class="container">
 			<a class="navbar-brand mx-auto" href="#">Blockchain Demo</a>
@@ -31,27 +38,58 @@
 
 	<div class="container">
 		<ul class="list-group">
-			<li id="buyers" class="list-group-item">Buyers: 0</li>
-			<li id="sellers" class="list-group-item">Sellers: 0</li>
+			<li id="bitcoin" class="list-group-item">BITCOIN: 0</li>
 		</ul>
+
+		<canvas id="chart"></canvas>
 	</div>
 
 	<script>
-	const b = document.getElementById( 'buyers' )
-	const s = document.getElementById( 'sellers' )
+		Chart.defaults.color = "#ffffff";
+		const CHART = document.getElementById( 'chart' )
+		const BITCOIN = document.getElementById( 'bitcoin' )
 
-	const btc = new WebSocket( 'wss://stream.binance.com:9443/ws/btcusdt@trade/btcbusd@trade' )
-	let buyers = 0, sellers = 0
-	btc.onmessage = function( message ) {
-		const { m } = JSON.parse( message.data ) 
-		if ( m ) {
-			buyers += 1
-			b.innerHTML = `Buyers: ${buyers}`
-		} else {
-			sellers += 1
-			s.innerHTML = `Sellers: ${sellers}`
-		} 
-	}
+		const data = {
+			labels: [ ],
+			datasets: [ {
+				title: { text: null },
+				lineTension: 0.3,
+				scaleFontColor: "#FFFFFF",
+				data: [ ],
+				spanGaps: true
+			} ]
+		}
+
+		let chart = new Chart( CHART, {
+			type: 'line',
+			data: data,
+			options: {
+				plugins: { legend: { display: false } },
+				scales: { y: { display: false }, x: { display: false } } 
+			}
+		} )
+
+		setInterval( async function fetchMovies( ) {
+			const res = await fetch( 'https://api.binance.com/api/v3/avgPrice?symbol=BTCUSDT' )
+			const { price } = await res.json( )
+			const date = new Date( )
+			const time = `${date.getHours( )}:${date.getMinutes( )}:${date.getSeconds( )}`
+			chart.data.datasets[ 0 ].data.push( parseFloat( price ) )
+			chart.data.labels.push( time )
+			if ( chart.data.datasets[ 0 ].data.length > 30 ) {
+				chart.data.datasets[ 0 ].data.shift( )
+			} 
+			if ( chart.data.labels.length > 31 ) {
+				chart.data.labels.shift( )
+			}
+			BITCOIN.innerHTML = `BITCOIN: ${price}`
+			chart.update( )
+		}, 500 )
+
+		/*const btc = new WebSocket( 'wss://stream.binance.com:9443/ws/btcusdt@trade' )
+		btc.onmessage = async function( message ) {
+			const { p, m, E } = JSON.parse( message.data ) 
+		}*/
 	</script>
 </body>
 </html>
