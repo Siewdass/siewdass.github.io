@@ -26,7 +26,7 @@
 				margin-top: 20px;
 			}
 		</style>
-		<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/chart.js@4.2.0/dist/chart.umd.min.js"></script>
   </head>
 <body>
 
@@ -38,59 +38,84 @@
 
 	<div class="container">
 		<ul class="list-group">
-			<li id="bitcoin" class="list-group-item">PRICE: 0</li>
+			<li id="price" class="list-group-item">PRICE: 0</li>
 		</ul>
 
 		<canvas id="chart"></canvas>
 	</div>
 
 	<script>
-		Chart.defaults.color = "#ffffff";
+		let buy = false
+
+		const up = (ctx, value) => ctx.p0.skip || ctx.p1.skip ? 'green' : undefined;
+		const down = (ctx, value) => ctx.p0.parsed.y > ctx.p1.parsed.y ? 'red' : undefined;
+
 		const CHART = document.getElementById( 'chart' )
-		const BITCOIN = document.getElementById( 'bitcoin' )
+		const PRICE = document.getElementById( 'price' )
 
 		const data = {
 			labels: [ ],
 			datasets: [ {
-				title: { text: null },
 				lineTension: 0.3,
-				scaleFontColor: "#FFFFFF",
 				data: [ ],
-				spanGaps: true
+				borderColor: 'green',
+				segment: {
+					borderColor: ctx => up( ctx ) || down( ctx ),
+					//borderDash: ctx => skipped(ctx, [6, 6]),
+				},
 			} ]
 		}
 
-		let chart = new Chart( CHART, {
-			type: 'line',
-			data: data,
-			options: {
-				plugins: { legend: { display: false } },
-				scales: { y: { display: false }, x: { display: false } } 
-			}
-		} )
+		const options = {
+			animation: { duration: 100 },
+			plugins: { legend: { display: false } },
+			scales: { y: { display: false }, x: { display: false } },
+			fill: false,
+			interaction: { intersect: false },
+			radius: 0,
+		}
 
-		setInterval( async function fetchMovies( ) {
+		let chart = new Chart( CHART, { type: 'line', data, options } )
+
+		setInterval( async function( ) {
 			const res = await fetch( 'https://api.binance.com/api/v3/avgPrice?symbol=BTCUSDT' )
 			const { price } = await res.json( )
 			const date = new Date( )
 			const time = `${date.getHours( )}:${date.getMinutes( )}:${date.getSeconds( )}`
 			chart.data.datasets[ 0 ].data.push( parseFloat( price ) )
 			chart.data.labels.push( time )
-			if ( chart.data.datasets[ 0 ].data.length > 30 ) {
+			if ( buy ) {
+				//chart.data.datasets[ 0 ].borderColor  = '#f39c12'
+				//chart.data.datasets[ 1 ].data.push( parseFloat( price ) )
+			} else { 
+
+			}
+
+			if ( chart.data.datasets[ 0 ].data.length > 31 ) {
 				chart.data.datasets[ 0 ].data.shift( )
-			} 
-			if ( chart.data.labels.length > 31 ) {
 				chart.data.labels.shift( )
 			}
-			BITCOIN.innerHTML = `PRICE: ${price}`
+			PRICE.innerHTML = `PRICE: ${price}`
 			chart.update( )
 		}, 500 )
 
-		/*const btc = new WebSocket( 'wss://stream.binance.com:9443/ws/btcusdt@trade' )
+
+
+		const btc = new WebSocket( 'wss://stream.binance.com:9443/ws/btcusdt@trade' )
+		let buyers = 0, sellers = 0
 		btc.onmessage = async function( message ) {
-			const { p, m, E } = JSON.parse( message.data ) 
-		}*/
+			const { p, m, E } = JSON.parse( message.data )
+			if ( m ) { 
+				buyers += 1
+			} else { 
+				sellers += 1
+			}
+		}
+
+		setInterval( async function( ) {
+			buy = true
+			//console.log( buyers, sellers )
+		}, 10000 )
 	</script>
 </body>
 </html>
-
