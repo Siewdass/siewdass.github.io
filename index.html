@@ -15,28 +15,28 @@
 			}
 			.navbar {
 				background: #343a40 !important;
-				margin-bottom: 20px;
+				margin-bottom: 15px;
+				border-bottom-left-radius: 5px;
+    		border-bottom-right-radius: 5px;
 			}
 			.navbar-brand {
 				color: white;
 			}
 			#chart {
 				background: #343a40;
-				border-radius: 10px;
-				margin-top: 20px;
+				border-radius: 5px;
+				margin-top: 15px;
 			}
 		</style>
 		<script src="https://cdn.jsdelivr.net/npm/chart.js@4.2.0/dist/chart.umd.min.js"></script>
   </head>
 <body>
 
-	<nav class="navbar navbar-expand-lg navbar-light bg-dark">
-		<div class="container">
-			<a class="navbar-brand mx-auto" href="#">BITCOIN</a>
-		</div>
-	</nav>
-
 	<div class="container">
+		<nav class="navbar navbar-expand-lg navbar-light bg-dark">
+			<a class="navbar-brand mx-auto" href="#">BITCOIN</a>
+		</nav>
+
 		<ul class="list-group">
 			<li id="price" class="list-group-item">PRICE: 0</li>
 		</ul>
@@ -45,8 +45,6 @@
 	</div>
 
 	<script>
-		let buy = false
-
 		const up = (ctx, value) => ctx.p0.skip || ctx.p1.skip ? 'green' : undefined;
 		const down = (ctx, value) => ctx.p0.parsed.y > ctx.p1.parsed.y ? 'red' : undefined;
 
@@ -84,13 +82,6 @@
 			const time = `${date.getHours( )}:${date.getMinutes( )}:${date.getSeconds( )}`
 			chart.data.datasets[ 0 ].data.push( parseFloat( price ) )
 			chart.data.labels.push( time )
-			if ( buy ) {
-				//chart.data.datasets[ 0 ].borderColor  = '#f39c12'
-				//chart.data.datasets[ 1 ].data.push( parseFloat( price ) )
-			} else { 
-
-			}
-
 			if ( chart.data.datasets[ 0 ].data.length > 31 ) {
 				chart.data.datasets[ 0 ].data.shift( )
 				chart.data.labels.shift( )
@@ -99,23 +90,12 @@
 			chart.update( )
 		}, 500 )
 
-
-
-		const btc = new WebSocket( 'wss://stream.binance.com:9443/ws/btcusdt@trade' )
+		/*const btc = new WebSocket( 'wss://stream.binance.com:9443/ws/btcusdt@trade' )
 		let buyers = 0, sellers = 0
 		btc.onmessage = async function( message ) {
 			const { p, m, E } = JSON.parse( message.data )
-			if ( m ) { 
-				buyers += 1
-			} else { 
-				sellers += 1
-			}
-		}
-
-		setInterval( async function( ) {
-			buy = true
-			//console.log( buyers, sellers )
-		}, 10000 )
+		}*/
 	</script>
 </body>
 </html>
+
