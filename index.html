@@ -162,7 +162,7 @@
 
 					if ( price > this.old ) {
 						this.rise += 1
-						if ( this.rise >= 21 ) {
+						if ( this.rise >= 25 ) {
 							this.rise = 0
 							return true
 						}
@@ -208,7 +208,7 @@
 
 					if ( price < this.old ) {
 						this.drop += 1
-						if ( this.drop >= 11 ) {
+						if ( this.drop >= 7 ) {
 							this.drop = 0
 							return true
 						}
