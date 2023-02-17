@@ -65,7 +65,7 @@
 		</nav>
 		<ul class="list-group">
 			<li id="total" class="list-group-item">Amount: 0.00 $</li>
-			<!--li id="profit" class="list-group-item">Profit: 0.00 $</li-->
+			<li id="algorithm" class="list-group-item">Algorithm: Unknow</li-->
 			<li id="time" class="list-group-item">Time: 00d 00h 00m 00s</li>
 		</ul>
 
@@ -93,6 +93,14 @@
 	</div>
 
 	<script>
+		String.prototype.capitalize = function(  ) {
+			return this[ 0 ].toUpperCase( ) + this.slice( 1 )
+		}
+
+		Number.prototype.characters = function( ) {
+			return this.toString( ).length == 1 ? '0' + this.toString( ) : this.toString( )
+		}
+
 		const CHART = document.getElementById( 'chart' )
 		const PRICE = document.getElementById( 'price' )
 		const AMOUNT = document.getElementById( 'total' )
@@ -102,6 +110,7 @@
 		const SELLEDAT = document.getElementById( 'selledat' )
 		const ORDERS = document.getElementById( 'orders' )
 		const TIME = document.getElementById( 'time' )
+		const ALGORITHM = document.getElementById( 'algorithm' )
 
 		let amount = 100.00
 		let orders = 0
@@ -145,6 +154,7 @@
 
 			constructor( algorithm ) {
 				this.algorithm = algorithm
+				ALGORITHM.innerHTML = `Algorithm: ${algorithm.capitalize( )}`
 			}
 
 			canBuy( price ) {
@@ -167,7 +177,7 @@
 					if ( this.drop >= 150 ) {
 						if ( price > this.old ) {
 							this.upCount += 1
-							if ( this.upCount >= 16 ) {
+							if ( this.upCount >= 17 ) {
 								this.upCount = 0
 								this.downCount = 0
 								this.drop = 0
@@ -198,7 +208,7 @@
 
 					if ( price < this.old ) {
 						this.drop += 1
-						if ( this.drop >= 7 ) {
+						if ( this.drop >= 6 ) {
 							this.drop = 0
 							return true
 						}
@@ -297,7 +307,7 @@
 				hours = 0
 				days += 1
 			}
-			TIME.innerHTML = `Time: ${convert(days)}d ${convert(hours)}h ${convert(minutes)}m ${convert(seconds)}s`
+			TIME.innerHTML = `Time: ${days.characters( )}d ${hours.characters( )}h ${minutes.characters( )}m ${seconds.characters( )}s`
 		}, 1000 )
 
 		/*const btc = new WebSocket( 'wss://stream.binance.com:9443/ws/btcusdt@trade' )
@@ -308,4 +318,5 @@
 	</script>
 </body>
 </html>
+
 
