@@ -10,6 +10,7 @@
 			body {
 				background: #6B728E;
 				font-family: 'Ubuntu', sans-serif;
+				margin-bottom: 15px;
 			}
 			.navbar {
 				height: 50px !important;
@@ -63,10 +64,9 @@
 			<a class="navbar-brand mx-auto">OWNER</a>
 		</nav>
 		<ul class="list-group">
-			<li id="total" class="list-group-item">Total: 0.00 $</li>
-			<li id="profit" class="list-group-item">Profit: 0.00 $</li>
+			<li id="total" class="list-group-item">Amount: 0.00 $</li>
+			<!--li id="profit" class="list-group-item">Profit: 0.00 $</li-->
 			<li id="time" class="list-group-item">Time: 00d 00h 00m 00s</li>
-			<li id="status" class="list-group-item">Status: Waiting</li>
 		</ul>
 
 		<nav id="header" class="navbar navbar-expand-lg navbar-light bg-dark">
@@ -85,6 +85,7 @@
 			<a class="navbar-brand mx-auto">ORDER</a>
 		</nav>
 		<ul class="list-group">
+			<li id="status" class="list-group-item">Status: Waiting</li>
 			<li id="buyedat" class="list-group-item">Buyed at: 0.00 $</li>
 			<li id="selledat" class="list-group-item">Selled at: 0.00 $</li>
 			<li id="orders" class="list-group-item">Orders: 0</li>
@@ -94,23 +95,21 @@
 	<script>
 		const CHART = document.getElementById( 'chart' )
 		const PRICE = document.getElementById( 'price' )
-		const TOTAL = document.getElementById( 'total' )
-		const PROFIT = document.getElementById( 'profit' )
+		const AMOUNT = document.getElementById( 'total' )
+		//const PROFIT = document.getElementById( 'profit' )
 		const STATUS = document.getElementById( 'status' )
 		const BUYEDAT = document.getElementById( 'buyedat' )
 		const SELLEDAT = document.getElementById( 'selledat' )
 		const ORDERS = document.getElementById( 'orders' )
 		const TIME = document.getElementById( 'time' )
 
-		let total = 100.00
-		let profit = 0.00
-		let bitcoin = 0
+		let amount = 100.00
 		let orders = 0
+		let price
+		let active = false
 		
-		TOTAL.innerHTML = `Total: ${total.toFixed(2)} $`
-		PROFIT.innerHTML = `Profit: ${profit.toFixed(2)} $`
+		AMOUNT.innerHTML = `Amount: ${amount.toFixed( 2 )} $`
 
-		
 		const data = {
 			labels: [ ],
 			datasets: [ {
@@ -134,76 +133,157 @@
 		}
 
 		let chart = new Chart( CHART, { type: 'line', data, options } )
-		let old = 0
-		let upCount = 0
-		let downCount = 0
-		
-		function trader( price ) {
-			if ( price > old ) { 
-				upCount += 1
-				if ( upCount >= 10 ) {
-					downCount = 0
-					STATUS.innerHTML = `Status: Buyed`
-				}
-			} else if ( price < old ) {
-				downCount += 1
-				if ( downCount >= 2 ) {
-					upCount = 0
-					STATUS.innerHTML = `Status: Selled`
+
+		class Trader {
+
+			algorithm = ''
+			old = 0
+			upCount = 0
+			downCount = 0
+			drop = 0
+			rise = 0
+
+			constructor( algorithm ) {
+				this.algorithm = algorithm
+			}
+
+			canBuy( price ) {
+				if ( this.algorithm == 'mercury' ) {
+
+					if ( price > this.old ) {
+						this.rise += 1
+						if ( this.rise >= 16 ) {
+							this.rise = 0
+							return true
+						}
+					} else if ( price < this.old ) {
+						this.rise = 0
+					}
+					this.old = price
+					return false
+
+				} else if ( this.algorithm == 'venus' ) {
+
+					if ( this.drop >= 150 ) {
+						if ( price > this.old ) {
+							this.upCount += 1
+							if ( this.upCount >= 16 ) {
+								this.upCount = 0
+								this.downCount = 0
+								this.drop = 0
+								return true
+							}
+						} else {
+							this.upCount = 0
+						}
+					} else if ( price < this.old ) { 
+						this.drop += 1
+						this.rise = 0
+					} else if ( this.rise < 10 ) {
+						this.rise += 1
+						this.drop -= 3
+					} else {
+						this.rise = 0
+						this.drop = 0
+					}
+					console.log( this.drop, this.rise )
+					this.old = price
+					return false
+
 				}
 			}
-			old = price
+
+			canSell( price ) {
+				if ( this.algorithm == 'mercury' ) {
+
+					if ( price < this.old ) {
+						this.drop += 1
+						if ( this.drop >= 7 ) {
+							this.drop = 0
+							return true
+						}
+					} else if ( price < this.old ) {
+						this.drop = 0
+					}
+					this.old = price
+					return false
+
+				} else if ( this.algorithm == 'venus' ) { 
+
+					if ( price < this.old ) {
+						this.downCount += 1
+						if ( this.downCount >= 4 ) {
+							this.upCount = 0
+							this.downCount = 0
+							return true
+						}
+					}
+					this.old = price
+					return false
+				}
+
+			}
+
 		}
 
-		//console.log( 'percent:', ( amount / price ) * 100 )
-
-		let running = false
-		setInterval( function( ) {
-			if ( STATUS.innerHTML == `Status: Buyed` && running == false ) {
-				running = true
-				OLD = bitcoin
-				BUYEDAT.innerHTML = `Buyed at: ${bitcoin} $`
+		class Order {
+			old = 0
+			makerBuy( price ) {
+				STATUS.innerHTML = `Status: Buyed`
+				BUYEDAT.innerHTML = `Buyed at: ${price} $`
 				SELLEDAT.innerHTML = `Selled at: 0.00 $`
-				let interval = setInterval( function( ) {
-					if ( STATUS.innerHTML == `Status: Selled` ) {
-						running = false
-						profit += ( ( bitcoin - OLD ) / bitcoin ) * 100
-						PROFIT.innerHTML = `Profit: ${profit.toFixed(2)} $`
-						SELLEDAT.innerHTML = `Selled at: ${bitcoin} $`
-						orders += 1
-						ORDERS.innerHTML = `Orders: ${orders}`
-						clearInterval( interval )
-					}
-				}, 500 )
+				this.old = price
 			}
-		}, 500 )
+			makerSell( price ) {
+				STATUS.innerHTML = `Status: Selled`
+				SELLEDAT.innerHTML = `Selled at: ${price} $`
+				let percent = ( ( price - this.old ) / price ) * 100
+				amount += ( percent / amount ) * 100
+				AMOUNT.innerHTML = `Amount: ${amount.toFixed( 2 )} $`
+				orders += 1
+				ORDERS.innerHTML = `Orders: ${orders}`
+			}
+		}
+
+		const trader = new Trader( 'mercury' )
+		const order = new Order( )
 
 		setInterval( async function( ) {
-			const res = await fetch( 'https://api.binance.com/api/v3/avgPrice?symbol=BTCUSDT' )
-			const { price } = await res.json( )
-			const p = parseFloat( price )
-			bitcoin = p
-			trader( p )
-			chart.data.datasets[ 0 ].data.push( p )
-			chart.data.labels.push( new Date( ).getTime( ) )
-			if ( chart.data.datasets[ 0 ].data.length > 31 ) {
-				chart.data.datasets[ 0 ].data.shift( )
-				chart.data.labels.shift( )
-			}
-			PRICE.innerHTML = `Price: ${price} $`
-			chart.update( )
+			try {
+				const res = await fetch( 'https://api.binance.com/api/v3/avgPrice?symbol=BTCUSDT' )
+				const data = await res.json( )
+				price = parseFloat( data.price )
+
+				if ( !active ) {
+					if ( trader.canBuy( price ) ) {
+						order.makerBuy( price )
+						active = true
+					}
+				} else {
+					if ( trader.canSell( price ) ) {
+						order.makerSell( price )
+						active = false
+					}
+				}
+
+				chart.data.datasets[ 0 ].data.push( price )
+				chart.data.labels.push( new Date( ).getTime( ) )
+				if ( chart.data.datasets[ 0 ].data.length > 31 ) {
+					chart.data.datasets[ 0 ].data.shift( )
+					chart.data.labels.shift( )
+				}
+				PRICE.innerHTML = `Price: ${price} $`
+				chart.update( )
+			} catch { }
 		}, 500 )
 
 		function convert( value ) {
-			let x = value.toString()
-			if ( x.length == 1 ) {
-				x = '0' + x
-			}
-			return x
+			const x = value.toString()
+			return x.length == 1 ? '0' + x : x
 		}
 
 		let days = 0, hours = 0, minutes = 0, seconds = 0
-		setInterval( async function( ) {
+		setInterval( function( ) {
 			seconds += 1
 			if ( seconds >= 60 ) {
 				seconds = 0
@@ -228,3 +308,4 @@
 	</script>
 </body>
 </html>
+
