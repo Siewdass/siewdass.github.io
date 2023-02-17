@@ -1,4 +1,4 @@
-
+<!DOCTYPE html>
 <html>
   <head>
     <meta charset="utf-8">
@@ -65,7 +65,7 @@
 		<ul class="list-group">
 			<li id="total" class="list-group-item">Total: 0.00 $</li>
 			<li id="profit" class="list-group-item">Profit: 0.00 $</li>
-			<li id="time" class="list-group-item">Time: 00d 00h 00m</li>
+			<li id="time" class="list-group-item">Time: 00d 00h 00m 00s</li>
 			<li id="status" class="list-group-item">Status: Waiting</li>
 		</ul>
 
@@ -202,9 +202,13 @@
 			return x
 		}
 
-		let days = 0, hours = 0, minutes = 0
+		let days = 0, hours = 0, minutes = 0, seconds = 0
 		setInterval( async function( ) {
-			minutes += 1
+			seconds += 1
+			if ( seconds >= 60 ) {
+				seconds = 0
+				minutes += 1
+			}
 			if ( minutes >= 60 ) {
 				minutes = 0
 				hours += 1
@@ -213,8 +217,8 @@
 				hours = 0
 				days += 1
 			}
-			TIME.innerHTML = `Time: ${convert(days)}d ${convert(hours)}h ${convert(minutes)}m`
-		}, 60000 )
+			TIME.innerHTML = `Time: ${convert(days)}d ${convert(hours)}h ${convert(minutes)}m ${convert(seconds)}s`
+		}, 1000 )
 
 		/*const btc = new WebSocket( 'wss://stream.binance.com:9443/ws/btcusdt@trade' )
 		let buyers = 0, sellers = 0
