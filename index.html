@@ -86,6 +86,7 @@
 		<ul class="list-group">
 			<li id="buyedat" class="list-group-item">Buyed at: 0.00 $</li>
 			<li id="selledat" class="list-group-item">Selled at: 0.00 $</li>
+			<li id="orders" class="list-group-item">Orders: 0</li>
 		</ul>
 	</div>
 
@@ -97,14 +98,18 @@
 		const STATUS = document.getElementById( 'status' )
 		const BUYEDAT = document.getElementById( 'buyedat' )
 		const SELLEDAT = document.getElementById( 'selledat' )
+		const ORDERS = document.getElementById( 'orders' )
+
 
 		let total = 100.00
 		let profit = 0.00
 		let bitcoin = 0
-
+		let orders = 0
+		
 		TOTAL.innerHTML = `Total: ${total.toFixed(2)} $`
 		PROFIT.innerHTML = `Profit: ${profit.toFixed(2)} $`
 
+		
 		const data = {
 			labels: [ ],
 			datasets: [ {
@@ -164,6 +169,8 @@
 						profit += ( ( bitcoin - OLD ) / bitcoin ) * 100
 						PROFIT.innerHTML = `Profit: ${profit.toFixed(2)} $`
 						SELLEDAT.innerHTML = `Selled at: ${bitcoin} $`
+						orders += 1
+						ORDERS.innerHTML = `Orders: ${orders}`
 						clearInterval( interval )
 					}
 				}, 500 )
