@@ -200,12 +200,12 @@
 					console.log( `buy ${percent} %` )
 
 					if ( this.can ) {
-						if ( percent <= -0.01 ) {
+						if ( percent <= -0.015 ) {
 							console.log( `can buy` )
 							this.can = false
 							return true
 						}
-					} else if ( percent >= 0.03 ) {
+					} else if ( percent >= 0.050 ) {
 						this.can = true
 					}
 					return false
@@ -233,7 +233,7 @@
 					let percent = ( ( data[ data.length - 1 ] - data[ 0 ] ) / data[ data.length - 1 ] ) * 100
 					console.log( `sell ${percent} %` )
 
-					if ( percent <= 0.01 ) {
+					if ( percent <= 0.010 ) {
 						console.log( `can sell` )
 						return true
 					}
