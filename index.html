@@ -99,8 +99,10 @@
 
 		Number.prototype.withZero = function( ) {
 			return this.toString( ).length == 1 ? '0' + this.toString( ) : this.toString( )
-		}
+		}	
 
+		let data = []
+		
 		const CHART = document.getElementById( 'chart' )
 		const PRICE = document.getElementById( 'price' )
 		const AMOUNT = document.getElementById( 'total' )
@@ -119,29 +121,48 @@
 		
 		AMOUNT.innerHTML = `Amount: ${amount.toFixed( 2 )} $`
 
-		const data = {
-			labels: [ ],
-			datasets: [ {
-				lineTension: 0.3,
-				data: [ ],
-				segment: {
-					borderColor: ( ctx ) => {
-						return ctx.p0.parsed.y > ctx.p1.parsed.y ? 'red' : 'cyan'
-					}
+		class Graph {
+
+			chart = new Chart( CHART, {
+				type: 'line',
+				data: {
+					labels: [ ],
+					datasets: [ {
+						lineTension: 0.3,
+						data: [ ],
+						segment: {
+							borderColor: ( ctx ) => {
+								return ctx.p0.parsed.y > ctx.p1.parsed.y ? 'red' : 'cyan'
+							}
+						}
+					} ]
+				},
+				options: {
+					animation: { x: {  duration: 100 }, y: {  duration: 0 } },
+					plugins: { legend: { display: false } },
+					scales: { y: { display: false }, x: { display: false } },
+					fill: false,
+					interaction: { intersect: false },
+					radius: 0
 				}
-			} ]
-		}
+			} )
 
-		const options = {
-			animation: { x: {  duration: 100 }, y: {  duration: 0 } },
-			plugins: { legend: { display: false } },
-			scales: { y: { display: false }, x: { display: false } },
-			fill: false,
-			interaction: { intersect: false },
-			radius: 0
+			update( price ) {
+				this.chart.data.datasets[ 0 ].data.push( price )
+				data.push( price )
+				this.chart.data.labels.push( new Date( ).getTime( ) )
+				if ( this.chart.data.datasets[ 0 ].data.length > 100 ) {
+					this.chart.data.datasets[ 0 ].data.shift( )
+					this.chart.data.labels.shift( )
+					data.shift( )
+				}
+				PRICE.innerHTML = `Price: ${price} $`
+				this.chart.update( )
+			}
+			getValues( ) {
+				return this.chart.data.datasets[ 0 ].data
+			}
 		}
-
-		let chart = new Chart( CHART, { type: 'line', data, options } )
 
 		class Trader {
 
@@ -151,6 +172,7 @@
 			downCount = 0
 			drop = 0
 			rise = 0
+			can = false
 
 			constructor( algorithm ) {
 				this.algorithm = algorithm
@@ -174,30 +196,18 @@
 
 				} else if ( this.algorithm == 'venus' ) {
 
-					if ( this.drop >= 150 ) {
-						if ( price > this.old ) {
-							this.upCount += 1
-							if ( this.upCount >= 17 ) {
-								this.upCount = 0
-								this.downCount = 0
-								this.drop = 0
-								return true
-							}
-						} else {
-							this.upCount = 0
+					let percent = ( ( data[ 0 ] - data[ data.length - 1 ] ) / data[ 0 ] ) * 100
+					console.log( `buy ${percent} %` )
+
+					if ( this.can ) {
+						if ( percent <= -0.01 ) {
+							console.log( `can buy` )
+							this.can = false
+							return true
 						}
-					} else if ( price < this.old ) { 
-						this.drop += 1
-						this.rise = 0
-					} else if ( this.rise < 10 ) {
-						this.rise += 1
-						this.drop -= 3
-					} else {
-						this.rise = 0
-						this.drop = 0
+					} else if ( percent >= 0.03 ) {
+						this.can = true
 					}
-					console.log( this.drop, this.rise )
-					this.old = price
 					return false
 
 				}
@@ -220,16 +230,16 @@
 
 				} else if ( this.algorithm == 'venus' ) { 
 
-					if ( price < this.old ) {
-						this.downCount += 1
-						if ( this.downCount >= 4 ) {
-							this.upCount = 0
-							this.downCount = 0
-							return true
-						}
+					let percent = ( ( data[ data.length - 1 ] - data[ 0 ] ) / data[ data.length - 1 ] ) * 100
+					console.log( `sell ${percent} %` )
+
+					if ( percent <= 0.01 ) {
+						console.log( `can sell` )
+						return true
 					}
-					this.old = price
+				
 					return false
+
 				}
 
 			}
@@ -255,8 +265,9 @@
 			}
 		}
 
-		const trader = new Trader( 'mercury' )
+		const trader = new Trader( 'venus' )
 		const order = new Order( )
+		const graph = new Graph( )
 
 		setInterval( async function( ) {
 			try {
@@ -276,21 +287,10 @@
 					}
 				}
 
-				chart.data.datasets[ 0 ].data.push( price )
-				chart.data.labels.push( new Date( ).getTime( ) )
-				if ( chart.data.datasets[ 0 ].data.length > 31 ) {
-					chart.data.datasets[ 0 ].data.shift( )
-					chart.data.labels.shift( )
-				}
-				PRICE.innerHTML = `Price: ${price} $`
-				chart.update( )
+				graph.update( price )
+
 			} catch { }
 		}, 500 )
-
-		function convert( value ) {
-			const x = value.toString()
-			return x.length == 1 ? '0' + x : x
-		}
 
 		let days = 0, hours = 0, minutes = 0, seconds = 0
 		setInterval( function( ) {
