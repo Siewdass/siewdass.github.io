@@ -101,7 +101,8 @@
 			return this.toString( ).length == 1 ? '0' + this.toString( ) : this.toString( )
 		}	
 
-		let data = []
+		let data = [ ]
+		let min = 0, max = 0
 		
 		const CHART = document.getElementById( 'chart' )
 		const PRICE = document.getElementById( 'price' )
@@ -132,13 +133,14 @@
 						data: [ ],
 						segment: {
 							borderColor: ( ctx ) => {
-								return ctx.p0.parsed.y > ctx.p1.parsed.y ? 'red' : 'cyan'
+								return ctx.p0.parsed.y > ctx.p1.parsed.y ? 'red' : '#00c942'
 							}
 						}
 					} ]
 				},
 				options: {
-					animation: { x: {  duration: 100 }, y: {  duration: 0 } },
+					events: [ ],
+					animation: { x: { duration: 100 }, y: {  duration: 0 } },
 					plugins: { legend: { display: false } },
 					scales: { y: { display: false }, x: { display: false } },
 					fill: false,
@@ -168,11 +170,11 @@
 
 			algorithm = ''
 			old = 0
-			upCount = 0
-			downCount = 0
 			drop = 0
 			rise = 0
 			can = false
+			min = 0
+			max = 0
 
 			constructor( algorithm ) {
 				this.algorithm = algorithm
@@ -197,17 +199,25 @@
 				} else if ( this.algorithm == 'venus' ) {
 
 					let percent = ( ( data[ 0 ] - data[ data.length - 1 ] ) / data[ 0 ] ) * 100
-					console.log( `buy ${percent} %` )
+					//console.log( `buy ${percent} %` )
 
 					if ( this.can ) {
-						if ( percent <= -0.015 ) {
-							console.log( `can buy` )
+						if ( percent <= -0.025 ) {
+							console.log( `buy done!` )
 							this.can = false
 							return true
 						}
-					} else if ( percent >= 0.035 ) {
+					} else if ( percent >= 0.070 ) {
 						this.can = true
 					}
+					return false
+
+				} else if ( this.algorithm == 'earth' ) {
+
+					if ( price > max ) {
+						max = price
+					}
+
 					return false
 
 				}
@@ -231,10 +241,10 @@
 				} else if ( this.algorithm == 'venus' ) { 
 
 					let percent = ( ( data[ data.length - 1 ] - data[ 0 ] ) / data[ data.length - 1 ] ) * 100
-					console.log( `sell ${percent} %` )
+					//console.log( `sell ${percent} %` )
 
-					if ( percent <= 0.010 ) {
-						console.log( `can sell` )
+					if ( percent <= 0.015 ) {
+						console.log( `sell done!` )
 						return true
 					}
 				
@@ -268,7 +278,9 @@
 		const trader = new Trader( 'venus' )
 		const order = new Order( )
 		const graph = new Graph( )
-
+		let percent = 0
+		let isRising = false, isDroping = false
+		let higher = 0, lowest = 0
 		setInterval( async function( ) {
 			try {
 				const res = await fetch( 'https://api.binance.com/api/v3/avgPrice?symbol=BTCUSDT' )
@@ -288,7 +300,21 @@
 				}
 
 				graph.update( price )
+				const val = graph.getValues( )
+				percent = ( ( val[ val.length - 1 ] - val[ 0 ] ) / val[ val.length - 1 ] ) * 100
+				if ( percent > 0 ) {
+					if ( isRising == false ) {
+						isRising
+					}
+					lowest = min
+					max = price
 
+				} else if ( percent < 0 ) {
+					higher = max
+					min = price
+				}
+
+				console.log( `min: ${min}`, `max: ${max}` )
 			} catch { }
 		}, 500 )
 
@@ -309,14 +335,7 @@
 			}
 			TIME.innerHTML = `Time: ${days.withZero( )}d ${hours.withZero( )}h ${minutes.withZero( )}m ${seconds.withZero( )}s`
 		}, 1000 )
-
-		/*const btc = new WebSocket( 'wss://stream.binance.com:9443/ws/btcusdt@trade' )
-		let buyers = 0, sellers = 0
-		btc.onmessage = async function( message ) {
-			const { p, m, E } = JSON.parse( message.data )
-		}*/
 	</script>
 </body>
 </html>
-
 
