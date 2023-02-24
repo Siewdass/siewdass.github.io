@@ -9,58 +9,59 @@
 		<script src="https://cdn.jsdelivr.net/npm/chart.js@4.2.0/dist/chart.umd.min.js"></script>
 		<link href="style.css" rel="stylesheet">
   </head>
-<body>
+	<body>
 
-	<div class="container">
-		<nav id="navbar" class="navbar navbar-expand-lg navbar-light bg-dark">
-			<a class="navbar-brand mx-auto align-middle">BITCOIN TRADER</a>
-		</nav>
+		<div class="container">
+			<nav id="navbar" class="navbar navbar-expand-lg navbar-light bg-dark">
+				<a class="navbar-brand mx-auto align-middle">BITCOIN TRADER</a>
+			</nav>
 
-		<nav id="header" class="navbar navbar-expand-lg navbar-light bg-dark">
-			<a class="navbar-brand mx-auto">OWNER</a>
-		</nav>
-		<ul class="list-group">
-			<li id="total" class="list-group-item">Amount: 0.00 $</li>
-			<li id="algorithm" class="list-group-item">Algorithm: Unknow</li-->
-			<li id="time" class="list-group-item">Time: 00d 00h 00m 00s</li>
-		</ul>
+			<nav id="header" class="navbar navbar-expand-lg navbar-light bg-dark">
+				<a class="navbar-brand mx-auto">OWNER</a>
+			</nav>
+			<ul class="list-group">
+				<li id="total" class="list-group-item">Amount: 0.00 $</li>
+				<li id="time" class="list-group-item">Time: 00d 00h 00m 00s</li>
+			</ul>
 
-		<nav id="header" class="navbar navbar-expand-lg navbar-light bg-dark">
-			<a class="navbar-brand mx-auto">INDICATORS</a>
-		</nav>
-		<ul class="list-group">
-			<li id="price" class="list-group-item">Price: 0.00 $</li>
-		</ul>
+			<nav id="header" class="navbar navbar-expand-lg navbar-light bg-dark">
+				<a class="navbar-brand mx-auto">ALGORITHMS</a>
+			</nav>
+			<ul class="list-group">
+				<li id="mercury" class="list-group-item">Mercury: ( Rises: 0 / Drops: 0 )</li>
+				<li id="venus" class="list-group-item">Venus: 0 %</li>
+				<li id="earth" class="list-group-item">Earth: ( Lowest: 0 / Highest: 0 )</li>
+			</ul>
 
-		<nav id="header" class="navbar navbar-expand-lg navbar-light bg-dark">
-			<a class="navbar-brand mx-auto">GRAPH</a>
-		</nav>
-		<canvas id="chart"></canvas>
+			<nav id="header" class="navbar navbar-expand-lg navbar-light bg-dark">
+				<a class="navbar-brand mx-auto">INDICATORS</a>
+			</nav>
+			<ul class="list-group">
+				<li id="price" class="list-group-item">Price: 0.00 $</li>
+			</ul>
 
-		<nav id="header" class="navbar navbar-expand-lg navbar-light bg-dark">
-			<a class="navbar-brand mx-auto">ORDER</a>
-		</nav>
-		<ul class="list-group">
-			<li id="status" class="list-group-item">Status: Waiting</li>
-			<li id="buyedat" class="list-group-item">Buyed at: 0.00 $</li>
-			<li id="selledat" class="list-group-item">Selled at: 0.00 $</li>
-			<li id="orders" class="list-group-item">Orders: 0</li>
-		</ul>
-	</div>
-	<script>
-		let data = [ ]
-		let min = 0, max = 0
-		let price
-		let percent = 0
-		let isRising = false, isDroping = false
-		let higher = 0, lowest = 0
-		let active = false
-	</script>
-	<script src="utils.js"></script>
-	<script src="graph.js"></script>
-	<script src="trader.js"></script>
-	<script src="order.js"></script>
-	<script src="main.js"></script>
-</body>
+			<nav id="header" class="navbar navbar-expand-lg navbar-light bg-dark">
+				<a class="navbar-brand mx-auto">GRAPH</a>
+			</nav>
+			<canvas id="chart"></canvas>
+
+			<nav id="header" class="navbar navbar-expand-lg navbar-light bg-dark">
+				<a class="navbar-brand mx-auto">ORDER</a>
+			</nav>
+			<ul class="list-group">
+				<li id="status" class="list-group-item">Status: Waiting</li>
+				<li id="buyedat" class="list-group-item">Buyed at: 0.00 $</li>
+				<li id="selledat" class="list-group-item">Selled at: 0.00 $</li>
+				<li id="orders" class="list-group-item">Orders: 0</li>
+			</ul>
+		</div>
+
+		<script src="utils.js"></script>
+		<script src="graph.js"></script>
+		<script src="trader.js"></script>
+		<script src="order.js"></script>
+		<script src="main.js"></script>
+	
+	</body>
 </html>
 

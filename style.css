@@ -32,6 +32,8 @@ body {
 .list-group-item {
   color: white;
   background: #50577A;
+  font-size: 15px !important;
+  font-weight: bold !important;
 }
 #header {
   margin-top: 15px;

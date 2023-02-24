@@ -1,12 +1,21 @@
-const trader = new Trader( 'venus' )
+const trader = new Trader( )
 const order = new Order( 100.00 )
 const graph = new Graph( )
+let min = 0, max = 0
+let price
+let percent = 0
+let isRising = false, isDroping = false
+let higher = 0, lowest = 0
+let active = false
 
 setInterval( async function( ) {
   try {
     const res = await fetch( 'https://api.binance.com/api/v3/avgPrice?symbol=BTCUSDT' )
     const data = await res.json( )
     price = parseFloat( data.price )
+
+    graph.update( price )
+    trader.update( price )
 
     if ( !active ) {
       if ( trader.canBuy( price ) ) {
@@ -19,23 +28,6 @@ setInterval( async function( ) {
         active = false
       }
     }
-
-    graph.update( price )
-    /*const val = graph.getValues( )
-    percent = ( ( val[ val.length - 1 ] - val[ 0 ] ) / val[ val.length - 1 ] ) * 100
-    if ( percent > 0 ) {
-      if ( isRising == false ) {
-        isRising
-      }
-      lowest = min
-      max = price
-
-    } else if ( percent < 0 ) {
-      higher = max
-      min = price
-    }
-
-    console.log( `min: ${min}`, `max: ${max}` )*/
   } catch ( error ) {
     console.log( error )
   }
