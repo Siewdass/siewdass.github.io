@@ -48,7 +48,7 @@ class Trader {
   }
 
   venus( ) {
-    this.percent = ( ( data[ data.length - 1 ] - data[ 0 ] ) / data[ data.length - 1 ] ) * 100
+    this.percent = ( ( this.data[ data.length - 1 ] - this.data[ 0 ] ) / this.data[ this.data.length - 1 ] ) * 100
     this.VENUS.innerHTML = `Venus: ${this.percent} %`
 
     if ( this.buying ) {
@@ -73,7 +73,7 @@ class Trader {
   }
 
   earth( ) {
-    this.percent = ( ( data[ data.length - 1 ] - data[ 0 ] ) / data[ data.length - 1 ] ) * 100
+    this.percent = ( ( this.data[ this.data.length - 1 ] - this.data[ 0 ] ) / this.data[ this.data.length - 1 ] ) * 100
     if ( this.percent > 0 ) {
       this.max = this.price
     } else if ( this.percent < 0 ) {
@@ -96,7 +96,6 @@ class Trader {
     const venus = this.venus( )
     const earth = this.earth( )
     if ( venus ) { 
-      console.log( `buy done!` )
       return true
     }
     return false
@@ -110,7 +109,6 @@ class Trader {
     const venus = this.venus( )
     const earth = this.earth( )
     if ( venus ) { 
-      console.log( `sell done!` )
       return true
     }
     return false
