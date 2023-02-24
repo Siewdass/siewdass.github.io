@@ -48,7 +48,7 @@ class Trader {
   }
 
   venus( ) {
-    this.percent = ( ( this.data[ data.length - 1 ] - this.data[ 0 ] ) / this.data[ this.data.length - 1 ] ) * 100
+    this.percent = ( ( this.data[ this.data.length - 1 ] - this.data[ 0 ] ) / this.data[ this.data.length - 1 ] ) * 100
     this.VENUS.innerHTML = `Venus: ${this.percent} %`
 
     if ( this.buying ) {
