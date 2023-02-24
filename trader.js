@@ -93,9 +93,9 @@ class Trader {
   mars( ) {
     for ( let i = 0; i < this.data.length; i++ ) {
       let percent = ( ( this.data[ i ] - this.data[ i + 1 ] ) / this.data[ i + 1 ] ) * 100
-      if ( percent > 0.001 ) {
+      if ( percent > 0.0008 ) {
         this.drops += 1
-      } else if ( percent < -0.001 ) {
+      } else if ( percent < -0.0008 ) {
         this.rises += 1
       }
     }
