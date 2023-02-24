@@ -88,6 +88,15 @@ class Trader {
     }
   }
 
+  mars( ) {
+
+    if ( this.buying ) {
+      return false
+    } else if ( this.selling ) {
+      return false
+    }
+  }
+
   canBuy( price ) {
     this.buying = true
     this.selling = false
