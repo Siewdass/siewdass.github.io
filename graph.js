@@ -29,14 +29,12 @@ class Graph {
 
   update( price ) {
     this.chart.data.datasets[ 0 ].data.push( price )
-    data.push( price )
     this.chart.data.labels.push( new Date( ).getTime( ) )
     if ( this.chart.data.datasets[ 0 ].data.length > 100 ) {
       this.chart.data.datasets[ 0 ].data.shift( )
       this.chart.data.labels.shift( )
-      data.shift( )
     }
-   this.PRICE.innerHTML = `Price: ${price} $`
+    this.PRICE.innerHTML = `Price: ${price} $`
     this.chart.update( )
   }
 
