@@ -10,14 +10,16 @@ class Trader {
   MERCURY = document.getElementById( 'mercury' )
   VENUS = document.getElementById( 'venus' )
   EARTH = document.getElementById( 'earth' )
+  MARS = document.getElementById( 'mars' )
   percent = 0
   price = 0
   data = [ ]
   min = 0
   max = 0
 
-  constructor( algorithm ) {
-  }
+  // mars
+  rises = 0
+  drops = 0
 
   mercury( ) {
     if ( this.price > this.old ) {
@@ -28,7 +30,7 @@ class Trader {
       this.drop += 1
     }
     this.old = this.price
-    this.MERCURY.innerHTML = `Mercury: ( Rises ${this.rise} / Drops ${this.drop} )`
+    this.MERCURY.innerHTML = `Mercury: ( Up ${this.rise} / Down ${this.drop} )`
 
     if ( this.buying ) {
 
@@ -89,7 +91,17 @@ class Trader {
   }
 
   mars( ) {
-
+    for ( let i = 0; i < this.data.length; i++ ) {
+      let percent = ( ( this.data[ i ] - this.data[ i + 1 ] ) / this.data[ i + 1 ] ) * 100
+      if ( percent > 0.001 ) {
+        this.drops += 1
+      } else if ( percent < -0.001 ) {
+        this.rises += 1
+      }
+    }
+    this.MARS.innerHTML = `Mars: ( Rises ${this.rises} / Drops ${this.drops} )`
+    this.rises = 0
+    this.drops = 0
     if ( this.buying ) {
       return false
     } else if ( this.selling ) {
@@ -104,6 +116,7 @@ class Trader {
     const mercury = this.mercury( )
     const venus = this.venus( )
     const earth = this.earth( )
+    const mars = this.mars( )
     if ( venus ) { 
       return true
     }
