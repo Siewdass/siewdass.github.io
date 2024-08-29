@@ -8,6 +8,8 @@ let isRising = false, isDroping = false
 let higher = 0, lowest = 0
 let active = false
 
+// ALGORITHM MAX SELLERS MAX BUYERS
+
 setInterval( async function( ) {
   try {
     const res = await fetch( 'https://api.binance.com/api/v3/avgPrice?symbol=BTCUSDT' )
